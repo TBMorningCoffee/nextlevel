@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Acquisition · TB Morning Coffee Advisory</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --sky: #4EAACB; --sky-dark: #2D7E9A; --sky-light: #A8D8EA;
+    --red: #C8231D; --red-dark: #8B1512; --red-light: #E85550;
+    --navy: #1A2335; --cream: #F5F0E8; --white: #FFFFFF;
+    --glass: rgba(255,255,255,0.10);
+    --glass-border: rgba(255,255,255,0.20);
+  }
+
+  html, body { min-height: 100vh; font-family: 'Barlow', sans-serif; background: linear-gradient(160deg, #2B6FA8 0%, #4EAACB 50%, #87C8DC 100%); }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 0.75rem; height: 64px; gap: 0.5rem;
+    background: rgba(26,35,53,0.96); border-bottom: 2px solid var(--red);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .logo-wrap { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
+  .logo-icon { width: 42px; height: 42px; border-radius: 6px; border: 2px solid var(--red); overflow: hidden; flex-shrink: 0; background: #1a6fa8; display: flex; align-items: center; justify-content: center; }
+  .logo-text .brand { font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: var(--white); letter-spacing: 2px; display: block; }
+  .logo-text .sub { font-family: 'Bebas Neue', sans-serif; font-size: 10px; letter-spacing: 2.5px; color: var(--red-light); text-transform: uppercase; display: block; }
+  .back-btn { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--sky-light); text-decoration: none; border: 1px solid rgba(168,216,234,0.35); padding: 6px 10px; border-radius: 3px; transition: all 0.2s; white-space: nowrap; }
+  .back-btn:hover { color: var(--white); border-color: var(--white); }
+
+  .page-body { display: flex; flex-direction: column; align-items: center; padding: 3rem 1.5rem 4rem; gap: 2rem; }
+
+  .intro-card {
+    max-width: 680px; width: 100%;
+    background: var(--glass); border: 2px solid var(--glass-border);
+    border-radius: 10px; padding: 2.5rem 2rem; text-align: center;
+  }
+  .section-badge {
+    display: inline-block; background: var(--red); color: var(--white);
+    font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 3px;
+    padding: 4px 14px; border-radius: 2px; margin-bottom: 1rem; text-transform: uppercase;
+  }
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 7vw, 58px);
+    letter-spacing: 4px; color: var(--white); text-shadow: 3px 3px 0 var(--navy); line-height: 1;
+  }
+  .page-title span { color: var(--red-light); }
+
+  .questions-card {
+    max-width: 680px; width: 100%;
+    background: var(--glass); border: 2px solid var(--glass-border);
+    border-radius: 10px; padding: 2rem 2rem 2.5rem;
+  }
+  .questions-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--white); margin-bottom: 0.4rem; }
+  .questions-subtitle { font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2rem; }
+
+  .question-block { margin-bottom: 2rem; }
+  .question-block:last-of-type { margin-bottom: 0; }
+  .q-text { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; line-height: 1.5; }
+  .q-number { font-family: 'Bebas Neue', sans-serif; color: var(--red-light); font-size: 18px; margin-right: 6px; }
+  .q-hint { font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; line-height: 1.6; }
+
+  .grade-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  .grade-btn {
+    width: 44px; height: 44px; border-radius: 5px; border: 2px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.08); color: var(--white);
+    font-family: 'Bebas Neue', sans-serif; font-size: 20px;
+    cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center;
+  }
+  .grade-btn:hover { border-color: var(--red-light); background: rgba(200,35,29,0.2); }
+  .grade-btn.selected { background: var(--red); border-color: var(--red); }
+  .grade-labels { display: flex; justify-content: space-between; margin-top: 0.5rem; padding: 0 2px; }
+  .grade-label-text { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); }
+
+  .submit-wrap { max-width: 680px; width: 100%; display: flex; justify-content: center; }
+  .submit-btn {
+    background: var(--red); color: var(--white); border: none;
+    font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 4px;
+    padding: 16px 60px; border-radius: 4px; cursor: pointer;
+    transition: background 0.2s, transform 0.15s; width: 100%; max-width: 340px;
+  }
+  .submit-btn:hover { background: var(--red-dark); }
+  .submit-btn:active { transform: scale(0.97); }
+
+  .result-panel {
+    max-width: 680px; width: 100%;
+    border-radius: 10px; padding: 2rem; text-align: center;
+    display: none; border: 2px solid var(--glass-border);
+  }
+  .result-panel.show { display: block; }
+  .result-panel.fragile  { background: rgba(139,21,18,0.35); border-color: var(--red); }
+  .result-panel.building { background: rgba(212,160,23,0.2);  border-color: #D4A017; }
+  .result-panel.robust   { background: rgba(30,120,60,0.25);  border-color: #2ecc71; }
+  .result-icon     { font-size: 48px; margin-bottom: 0.6rem; }
+  .result-headline { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 3px; color: var(--white); margin-bottom: 0.5rem; }
+  .result-body     { font-size: 14px; color: rgba(255,255,255,0.82); line-height: 1.7; }
+
+  .nav-pills { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
+  .nav-pill { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--navy); background: var(--sky-light); text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: background 0.2s; }
+  .nav-pill:hover { background: var(--white); }
+  .nav-pill.active { background: var(--red); color: var(--white); }
+
+  footer { background: var(--navy); color: var(--sky-light); text-align: center; padding: 1.2rem; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; border-top: 3px solid var(--red); }
+  footer strong { color: var(--white); }
+
+  @media (max-width: 480px) {
+    header { padding: 0 0.5rem; gap: 0.3rem; height: 58px; }
+    .logo-icon { width: 36px !important; height: 36px !important; }
+    .logo-text .brand { font-size: 11px !important; }
+    .logo-text .sub { font-size: 9px !important; }
+    .back-btn { font-size: 9px !important; padding: 5px 8px !important; }
+    .grade-btn { width: 38px; height: 38px; font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo-wrap" href="index.html">
+    <div class="logo-icon">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="42" height="42">
+        <rect width="100" height="100" fill="#1a6fa8"/>
+        <rect x="0" y="72" width="100" height="28" fill="#0d3d5c"/>
+        <rect x="30" y="32" width="40" height="40" fill="#fff"/>
+        <rect x="38" y="18" width="24" height="20" fill="#fff"/>
+        <polygon points="50,4 62,18 38,18" fill="#e8c94f"/>
+        <rect x="42" y="52" width="16" height="20" fill="#1a6fa8" rx="8"/>
+        <rect x="33" y="36" width="10" height="8" fill="#4EAACB"/>
+        <rect x="57" y="36" width="10" height="8" fill="#4EAACB"/>
+        <rect x="33" y="50" width="10" height="8" fill="#4EAACB"/>
+        <rect x="57" y="50" width="10" height="8" fill="#4EAACB"/>
+        <rect x="4" y="48" width="22" height="24" fill="#c8231d"/>
+        <rect x="74" y="44" width="22" height="28" fill="#c8231d"/>
+        <rect x="8" y="56" width="6" height="8" fill="#fff" opacity="0.7"/>
+        <rect x="78" y="52" width="6" height="8" fill="#fff" opacity="0.7"/>
+        <rect x="0" y="74" width="100" height="26" fill="#0d3d5c"/>
+        <text x="50" y="84" text-anchor="middle" font-family="Arial Black,sans-serif" font-weight="900" font-size="9" fill="#fff" letter-spacing="1">MORNING</text>
+        <text x="50" y="96" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" fill="#4EAACB" letter-spacing="2">COFFEE ADVISORY</text>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="brand">Morning Coffee</span>
+      <span class="sub">Advisory</span>
+    </div>
+  </a>
+  <a class="back-btn" href="index.html">← Back to Pyramid</a>
+</header>
+
+<div class="page-body">
+
+  <div class="intro-card">
+    <div class="section-badge">Level 2</div>
+    <h1 class="page-title">Acquisition</h1>
+  </div>
+
+  <div class="questions-card">
+    <div class="questions-title">Rate Your Acquisition</div>
+    <div class="questions-subtitle">Grade each question from 1 (not at all) to 5 (absolutely)</div>
+
+    <!-- Q1: Number of channels -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">01 —</span> How many independent sources regularly bring you new customers?</div>
+      <div class="q-hint">Think referrals, social media, Google search, paid ads, partnerships, events — each one counts as a separate source. One source means one point of failure. The more you have, the safer your business.</div>
+      <div class="grade-row" data-q="q1">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">One or none</span>
+        <span class="grade-label-text">Four or more</span>
+      </div>
+    </div>
+
+    <!-- Q2: Reliability -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">02 —</span> Do new leads come in every week without you having to chase them?</div>
+      <div class="q-hint">Reliable acquisition means your pipeline refills on its own. If leads only appear after you make calls or post something, you don't have a system — you have activity.</div>
+      <div class="grade-row" data-q="q2">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">Only when I push for it</span>
+        <span class="grade-label-text">Every week, consistently</span>
+      </div>
+    </div>
+
+    <!-- Q3: Referral dependency -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">03 —</span> If your referrals and personal network dried up tomorrow, would you still get new customers?</div>
+      <div class="q-hint">Referrals are great, but they're borrowed trust. Businesses that rely almost entirely on word of mouth are one slow season away from a serious problem.</div>
+      <div class="grade-row" data-q="q3">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">No — referrals are almost everything</span>
+        <span class="grade-label-text">Yes — other channels are working</span>
+      </div>
+    </div>
+
+    <!-- Q4: Paid vs organic -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">04 —</span> Do you run paid ads, or do you rely only on organic reach?</div>
+      <div class="q-hint">Organic is slow but free. Paid is fast but costs money. The strongest businesses use both. Only organic means slow growth. Only paid means you stop the moment you stop spending.</div>
+      <div class="grade-row" data-q="q4">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">Only organic or nothing</span>
+        <span class="grade-label-text">Both paid and organic working together</span>
+      </div>
+    </div>
+
+    <!-- Q5: Content as a channel -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">05 —</span> Do you publish content regularly and does it bring in leads?</div>
+      <div class="q-hint">Posts, articles, videos, newsletters — content that teaches or helps builds trust at scale. If you publish consistently and people reach out because of it, content is working as a channel for you.</div>
+      <div class="grade-row" data-q="q5">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">Rarely publish, no leads from it</span>
+        <span class="grade-label-text">Publish consistently, leads follow</span>
+      </div>
+    </div>
+
+    <!-- Q6: Lead magnet -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">06 —</span> Do you have something free and useful that people can get in exchange for their contact details?</div>
+      <div class="q-hint">A free guide, a calculator, a case study, a checklist — a lead magnet turns strangers into contacts you can follow up with. Without one, most of your website visitors leave and never come back.</div>
+      <div class="grade-row" data-q="q6">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">Nothing like this exists</span>
+        <span class="grade-label-text">Yes, and it brings in contacts regularly</span>
+      </div>
+    </div>
+
+    <!-- Q7: Channel complexity & system -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">07 —</span> Do you know exactly which channel brings you the most customers, and how much it costs to get one?</div>
+      <div class="q-hint">Knowing your numbers is what separates a marketing system from marketing activity. If you can't say which channel works best and what a new customer costs you, you can't grow it deliberately.</div>
+      <div class="grade-row" data-q="q7">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">No idea</span>
+        <span class="grade-label-text">Know exactly — and optimise it</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="submit-wrap">
+    <button class="submit-btn" onclick="calcScore()">See My Result →</button>
+  </div>
+
+  <div class="result-panel" id="resultPanel">
+    <div class="result-icon" id="resultIcon"></div>
+    <div class="result-headline" id="resultHeadline"></div>
+    <div class="result-body" id="resultBody"></div>
+  </div>
+
+  <div class="nav-pills">
+    <a class="nav-pill" href="product.html">Product</a>
+    <a class="nav-pill" href="branding.html">Branding</a>
+    <a class="nav-pill" href="online-presence.html">Online Presence</a>
+    <a class="nav-pill active" href="acquisition.html">Acquisition</a>
+    <a class="nav-pill" href="sales.html">Sales</a>
+  </div>
+
+</div>
+
+<footer><strong>TB Morning Coffee Advisory</strong> &nbsp;·&nbsp; Acquisition</footer>
+
+<script>
+  document.querySelectorAll('.grade-row').forEach(row => {
+    row.querySelectorAll('.grade-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        row.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  });
+
+  function calcScore() {
+    const rows = document.querySelectorAll('.grade-row');
+    let total = 0, answered = 0;
+    rows.forEach(row => {
+      const sel = row.querySelector('.grade-btn.selected');
+      if (sel) { total += parseInt(sel.dataset.val); answered++; }
+    });
+    if (answered < rows.length) { alert('Please answer all 7 questions before seeing your result.'); return; }
+
+    const avg = total / rows.length;
+    localStorage.setItem('score_acquisition', avg);
+    const panel = document.getElementById('resultPanel');
+    const icon  = document.getElementById('resultIcon');
+    const hl    = document.getElementById('resultHeadline');
+    const body  = document.getElementById('resultBody');
+    panel.classList.remove('fragile', 'building', 'robust', 'show');
+
+    if (avg <= 2) {
+      panel.classList.add('fragile', 'show');
+      icon.textContent = '🧱';
+      hl.textContent = 'Fragile Pipeline';
+      body.textContent = 'Your acquisition is too dependent on a single source — most likely referrals or your personal network. That\'s not a system, it\'s a relationship. One quiet month or one key contact moving on can stop your pipeline entirely. The priority is to build at least one channel that works independently of who you know: a consistent content presence, a paid campaign, or a lead magnet that captures contacts while you sleep.';
+    } else if (avg <= 4) {
+      panel.classList.add('building', 'show');
+      icon.textContent = '⚙️';
+      hl.textContent = 'Building — But Gaps Remain';
+      body.textContent = 'You have some acquisition activity going on, but it\'s not yet a reliable system. Leads come in, but not predictably, and you probably couldn\'t tell someone exactly which channel is working best. The next step is to close the gaps: add a lead magnet, mix paid and organic, and start tracking where your best customers actually come from. That data is worth more than any individual tactic.';
+    } else {
+      panel.classList.add('robust', 'show');
+      icon.textContent = '🚀';
+      hl.textContent = 'Robust Acquisition System';
+      body.textContent = 'You have multiple channels working, you know your numbers, and your pipeline refills without you having to manually push it every week. That\'s a genuine competitive advantage — most businesses never get here. The focus now is optimisation: double down on what works, cut what doesn\'t, and make sure each channel feeds the next rather than operating in isolation.';
+    }
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Restore previous result if available
+  (function() {
+    const saved = localStorage.getItem('score_acquisition');
+    if (saved) {
+      // Re-select grade buttons to reflect saved avg
+      const avg = parseFloat(saved);
+      const rows = document.querySelectorAll('.grade-row');
+      rows.forEach(row => {
+        const closest = Math.round(avg);
+        row.querySelectorAll('.grade-btn').forEach(b => {
+          if (parseInt(b.dataset.val) === closest) b.classList.add('selected');
+        });
+      });
+    }
+  })();
+
+</script>
+
+</body>
+</html>

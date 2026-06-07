@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Online Presence · TB Morning Coffee Advisory</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --sky: #4EAACB; --sky-dark: #2D7E9A; --sky-light: #A8D8EA;
+    --red: #C8231D; --red-dark: #8B1512; --red-light: #E85550;
+    --navy: #1A2335; --cream: #F5F0E8; --white: #FFFFFF;
+    --glass: rgba(255,255,255,0.10);
+    --glass-border: rgba(255,255,255,0.20);
+  }
+
+  html, body { min-height: 100vh; font-family: 'Barlow', sans-serif; background: linear-gradient(160deg, #2B6FA8 0%, #4EAACB 50%, #87C8DC 100%); }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 0.75rem; height: 64px; gap: 0.5rem;
+    background: rgba(26,35,53,0.96); border-bottom: 2px solid var(--red);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .logo-wrap { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
+  .logo-icon { width: 42px; height: 42px; border-radius: 6px; border: 2px solid var(--red); overflow: hidden; flex-shrink: 0; background: #1a6fa8; display: flex; align-items: center; justify-content: center; }
+  .logo-text .brand { font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: var(--white); letter-spacing: 2px; display: block; }
+  .logo-text .sub { font-family: 'Bebas Neue', sans-serif; font-size: 10px; letter-spacing: 2.5px; color: var(--red-light); text-transform: uppercase; display: block; }
+  .back-btn { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--sky-light); text-decoration: none; border: 1px solid rgba(168,216,234,0.35); padding: 6px 10px; border-radius: 3px; transition: all 0.2s; white-space: nowrap; }
+  .back-btn:hover { color: var(--white); border-color: var(--white); }
+
+  .page-body { display: flex; flex-direction: column; align-items: center; padding: 3rem 1.5rem 4rem; gap: 2rem; }
+
+  .intro-card {
+    max-width: 680px; width: 100%;
+    background: var(--glass); border: 2px solid var(--glass-border);
+    border-radius: 10px; padding: 2.5rem 2rem; text-align: center;
+  }
+  .section-badge {
+    display: inline-block; background: var(--red); color: var(--white);
+    font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 3px;
+    padding: 4px 14px; border-radius: 2px; margin-bottom: 1rem; text-transform: uppercase;
+  }
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 7vw, 58px);
+    letter-spacing: 4px; color: var(--white); text-shadow: 3px 3px 0 var(--navy);
+    line-height: 1;
+  }
+  .page-title span { color: var(--red-light); }
+
+  .questions-card {
+    max-width: 680px; width: 100%;
+    background: var(--glass); border: 2px solid var(--glass-border);
+    border-radius: 10px; padding: 2rem 2rem 2.5rem;
+  }
+  .questions-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--white); margin-bottom: 0.4rem; }
+  .questions-subtitle { font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2rem; }
+
+  .question-block { margin-bottom: 2rem; }
+  .question-block:last-of-type { margin-bottom: 0; }
+  .q-text { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; line-height: 1.5; }
+  .q-number { font-family: 'Bebas Neue', sans-serif; color: var(--red-light); font-size: 18px; margin-right: 6px; }
+  .q-hint { font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 0.9rem; line-height: 1.6; }
+
+  .grade-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  .grade-btn {
+    width: 44px; height: 44px; border-radius: 5px; border: 2px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.08); color: var(--white);
+    font-family: 'Bebas Neue', sans-serif; font-size: 20px;
+    cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center;
+  }
+  .grade-btn:hover { border-color: var(--red-light); background: rgba(200,35,29,0.2); }
+  .grade-btn.selected { background: var(--red); border-color: var(--red); }
+  .grade-labels { display: flex; justify-content: space-between; margin-top: 0.5rem; padding: 0 2px; }
+  .grade-label-text { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); }
+
+  .submit-wrap { max-width: 680px; width: 100%; display: flex; justify-content: center; }
+  .submit-btn {
+    background: var(--red); color: var(--white); border: none;
+    font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 4px;
+    padding: 16px 60px; border-radius: 4px; cursor: pointer;
+    transition: background 0.2s, transform 0.15s; width: 100%; max-width: 340px;
+  }
+  .submit-btn:hover { background: var(--red-dark); }
+  .submit-btn:active { transform: scale(0.97); }
+
+  .result-panel {
+    max-width: 680px; width: 100%;
+    border-radius: 10px; padding: 2rem; text-align: center;
+    display: none; border: 2px solid var(--glass-border);
+  }
+  .result-panel.show { display: block; }
+  .result-panel.weak     { background: rgba(139,21,18,0.35); border-color: var(--red); }
+  .result-panel.partial  { background: rgba(212,160,23,0.2);  border-color: #D4A017; }
+  .result-panel.strong   { background: rgba(30,120,60,0.25);  border-color: #2ecc71; }
+  .result-icon     { font-size: 48px; margin-bottom: 0.6rem; }
+  .result-headline { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 3px; color: var(--white); margin-bottom: 0.5rem; }
+  .result-body     { font-size: 14px; color: rgba(255,255,255,0.82); line-height: 1.7; }
+
+  .nav-pills { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
+  .nav-pill { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--navy); background: var(--sky-light); text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: background 0.2s; }
+  .nav-pill:hover { background: var(--white); }
+  .nav-pill.active { background: var(--red); color: var(--white); }
+
+  footer { background: var(--navy); color: var(--sky-light); text-align: center; padding: 1.2rem; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; border-top: 3px solid var(--red); }
+  footer strong { color: var(--white); }
+
+  @media (max-width: 480px) {
+    header { padding: 0 0.5rem; gap: 0.3rem; height: 58px; }
+    .logo-icon { width: 36px !important; height: 36px !important; }
+    .logo-text .brand { font-size: 11px !important; }
+    .logo-text .sub { font-size: 9px !important; }
+    .back-btn { font-size: 9px !important; padding: 5px 8px !important; }
+    .grade-btn { width: 38px; height: 38px; font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo-wrap" href="index.html">
+    <div class="logo-icon">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="42" height="42">
+        <rect width="100" height="100" fill="#1a6fa8"/>
+        <rect x="0" y="72" width="100" height="28" fill="#0d3d5c"/>
+        <rect x="30" y="32" width="40" height="40" fill="#fff"/>
+        <rect x="38" y="18" width="24" height="20" fill="#fff"/>
+        <polygon points="50,4 62,18 38,18" fill="#e8c94f"/>
+        <rect x="42" y="52" width="16" height="20" fill="#1a6fa8" rx="8"/>
+        <rect x="33" y="36" width="10" height="8" fill="#4EAACB"/>
+        <rect x="57" y="36" width="10" height="8" fill="#4EAACB"/>
+        <rect x="33" y="50" width="10" height="8" fill="#4EAACB"/>
+        <rect x="57" y="50" width="10" height="8" fill="#4EAACB"/>
+        <rect x="4" y="48" width="22" height="24" fill="#c8231d"/>
+        <rect x="74" y="44" width="22" height="28" fill="#c8231d"/>
+        <rect x="8" y="56" width="6" height="8" fill="#fff" opacity="0.7"/>
+        <rect x="78" y="52" width="6" height="8" fill="#fff" opacity="0.7"/>
+        <rect x="0" y="74" width="100" height="26" fill="#0d3d5c"/>
+        <text x="50" y="84" text-anchor="middle" font-family="Arial Black,sans-serif" font-weight="900" font-size="9" fill="#fff" letter-spacing="1">MORNING</text>
+        <text x="50" y="96" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" fill="#4EAACB" letter-spacing="2">COFFEE ADVISORY</text>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="brand">Morning Coffee</span>
+      <span class="sub">Advisory</span>
+    </div>
+  </a>
+  <a class="back-btn" href="index.html">← Back to Pyramid</a>
+</header>
+
+<div class="page-body">
+
+  <div class="intro-card">
+    <div class="section-badge">Level 3</div>
+    <h1 class="page-title">Online <span>Presence</span></h1>
+  </div>
+
+  <div class="questions-card">
+    <div class="questions-title">Rate Your Online Presence</div>
+    <div class="questions-subtitle">Grade each question from 1 (not at all) to 5 (absolutely)</div>
+
+    <!-- Q1: Google rating -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">01 —</span> What is your Google rating right now?</div>
+      <div class="q-hint">Below 4.0 is a red flag for most buyers. Between 4.2 and 4.7 is the sweet spot — a perfect 5.0 with very few reviews is actually trusted less.</div>
+      <div class="grade-row" data-q="q1">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">No profile or below 4.0</span>
+        <span class="grade-label-text">4.2 – 4.7 stars</span>
+      </div>
+    </div>
+
+    <!-- Q2: Review volume -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">02 —</span> How many Google reviews do you have?</div>
+      <div class="q-hint">Volume builds trust. Businesses with 50+ reviews are far more likely to show up when people search locally. Under 10 and most buyers won't take you seriously.</div>
+      <div class="grade-row" data-q="q2">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">Under 10 reviews</span>
+        <span class="grade-label-text">50+ reviews</span>
+      </div>
+    </div>
+
+    <!-- Q3: Review response -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">03 —</span> Do you reply to your reviews — especially the bad ones?</div>
+      <div class="q-hint">Replying to reviews, including negative ones, shows future customers that you care. Businesses that respond regularly earn significantly more than those that don't.</div>
+      <div class="grade-row" data-q="q3">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">Never</span>
+        <span class="grade-label-text">Every single one</span>
+      </div>
+    </div>
+
+    <!-- Q4: Website clarity -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">04 —</span> When someone visits your website, is it immediately obvious what you do and how to get in touch or buy?</div>
+      <div class="q-hint">If a visitor has to think for more than a few seconds, they leave. One clear message and one clear button is all it takes — most websites have neither.</div>
+      <div class="grade-row" data-q="q4">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">No website or very confusing</span>
+        <span class="grade-label-text">Crystal clear, easy to act</span>
+      </div>
+    </div>
+
+    <!-- Q5: Right social platform -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">05 —</span> Are you posting regularly on the platform where your customers actually are?</div>
+      <div class="q-hint">Instagram and Facebook for lifestyle and local businesses. LinkedIn for B2B. TikTok for younger audiences. Being active on the wrong platform is the same as not being active at all.</div>
+      <div class="grade-row" data-q="q5">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">Wrong platform or rarely post</span>
+        <span class="grade-label-text">Right platform, posting consistently</span>
+      </div>
+    </div>
+
+    <!-- Q6: Social engagement -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">06 —</span> Do people comment, share or message you directly because of something you posted?</div>
+      <div class="q-hint">Likes don't pay the bills. Comments, shares and direct messages are the signs that your content is actually connecting with potential customers.</div>
+      <div class="grade-row" data-q="q6">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">Almost never</span>
+        <span class="grade-label-text">Regularly</span>
+      </div>
+    </div>
+
+    <!-- Q7: Industry platform -->
+    <div class="question-block">
+      <div class="q-text"><span class="q-number">07 —</span> Are you listed and active on the main platform people in your industry use to find and compare businesses?</div>
+      <div class="q-hint">Restaurants and hotels: TripAdvisor. Tours: GetYourGuide. Beauty: Treatwell. Healthcare: Doctolib. Home services: Houzz. If your buyers search there, you need to be there and look better than the competition.</div>
+      <div class="grade-row" data-q="q7">
+        <button class="grade-btn" data-val="1">1</button>
+        <button class="grade-btn" data-val="2">2</button>
+        <button class="grade-btn" data-val="3">3</button>
+        <button class="grade-btn" data-val="4">4</button>
+        <button class="grade-btn" data-val="5">5</button>
+      </div>
+      <div class="grade-labels">
+        <span class="grade-label-text">Not listed or badly maintained</span>
+        <span class="grade-label-text">Complete profile, great reviews</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="submit-wrap">
+    <button class="submit-btn" onclick="calcScore()">See My Result →</button>
+  </div>
+
+  <div class="result-panel" id="resultPanel">
+    <div class="result-icon" id="resultIcon"></div>
+    <div class="result-headline" id="resultHeadline"></div>
+    <div class="result-body" id="resultBody"></div>
+  </div>
+
+  <div class="nav-pills">
+    <a class="nav-pill" href="product.html">Product</a>
+    <a class="nav-pill" href="branding.html">Branding</a>
+    <a class="nav-pill active" href="online-presence.html">Online Presence</a>
+    <a class="nav-pill" href="acquisition.html">Acquisition</a>
+    <a class="nav-pill" href="sales.html">Sales</a>
+  </div>
+
+</div>
+
+<footer><strong>TB Morning Coffee Advisory</strong> &nbsp;·&nbsp; Online Presence</footer>
+
+<script>
+  document.querySelectorAll('.grade-row').forEach(row => {
+    row.querySelectorAll('.grade-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        row.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  });
+
+  function calcScore() {
+    const rows = document.querySelectorAll('.grade-row');
+    let total = 0, answered = 0;
+    rows.forEach(row => {
+      const sel = row.querySelector('.grade-btn.selected');
+      if (sel) { total += parseInt(sel.dataset.val); answered++; }
+    });
+    if (answered < rows.length) { alert('Please answer all 7 questions before seeing your result.'); return; }
+
+    const avg = total / rows.length;
+    localStorage.setItem('score_online', avg);
+    const panel = document.getElementById('resultPanel');
+    const icon  = document.getElementById('resultIcon');
+    const hl    = document.getElementById('resultHeadline');
+    const body  = document.getElementById('resultBody');
+    panel.classList.remove('weak', 'partial', 'strong', 'show');
+
+    if (avg <= 2) {
+      panel.classList.add('weak', 'show');
+      icon.textContent = '🕳️';
+      hl.textContent = 'Weak Online Presence';
+      body.textContent = 'Your online presence is costing you customers before you ever speak to them. Incomplete profiles, missing or outdated reviews, a website that doesn\'t convert, and absence from the platforms where your buyers search — any one of these is a leak. Combined, they make you invisible or untrustworthy at the moment of decision. Start with Google: get your profile complete, reviews flowing, and every response answered. Then fix the website and the rest will compound.';
+    } else if (avg <= 4) {
+      panel.classList.add('partial', 'show');
+      icon.textContent = '🔧';
+      hl.textContent = 'Work In Progress';
+      body.textContent = 'You\'re visible in some places but there are gaps that are quietly losing you business. The opportunity here is in the details — responding to reviews, tightening your website\'s conversion path, showing up consistently on the platform your buyers actually use. Small improvements compound fast: one extra star on Google, 10 more reviews, a clearer call to action on your website. None of these are expensive. All of them move the needle.';
+    } else {
+      panel.classList.add('strong', 'show');
+      icon.textContent = '📶';
+      hl.textContent = 'Strong Online Presence';
+      body.textContent = 'Your online presence is doing real work for you. Buyers can find you, trust you, and take action before the first conversation. That\'s a significant competitive advantage — most businesses in your space almost certainly don\'t have this dialled in to the same level. The job now is to maintain it: keep reviews fresh, keep profiles updated, and keep your website converting. Presence decays faster than most people realise.';
+    }
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Restore previous result if available
+  (function() {
+    const saved = localStorage.getItem('score_online');
+    if (saved) {
+      // Re-select grade buttons to reflect saved avg
+      const avg = parseFloat(saved);
+      const rows = document.querySelectorAll('.grade-row');
+      rows.forEach(row => {
+        const closest = Math.round(avg);
+        row.querySelectorAll('.grade-btn').forEach(b => {
+          if (parseInt(b.dataset.val) === closest) b.classList.add('selected');
+        });
+      });
+    }
+  })();
+
+</script>
+
+</body>
+</html>
