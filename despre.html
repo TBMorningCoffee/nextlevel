@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About · TB Morning Coffee Advisory</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sky: #4EAACB; --sky-dark: #2D7E9A; --sky-light: #A8D8EA; --sky-pale: #EBF6FB;
+  --red: #C8231D; --red-dark: #8B1512; --red-light: #E85550;
+  --navy: #1A2335; --navy-light: #243044; --cream: #F5F0E8; --white: #FFFFFF;
+  --border: rgba(26,35,53,0.10);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Barlow', sans-serif; background: var(--white); color: var(--navy); overflow-x: hidden; }
+
+/* HEADER */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 64px; gap: 1rem;
+  background: var(--navy); border-bottom: 2px solid var(--red);
+}
+.logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+.logo-icon { width: 40px; height: 40px; border-radius: 4px; border: 2px solid var(--red); overflow: hidden; flex-shrink: 0; background: var(--sky); display: flex; align-items: center; justify-content: center; }
+.logo-text { display: flex; flex-direction: column; line-height: 1; gap: 2px; }
+.logo-text .brand { font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: var(--white); letter-spacing: 2px; }
+.logo-text .sub { font-family: 'Bebas Neue', sans-serif; font-size: 10px; letter-spacing: 2.5px; color: var(--sky-light); }
+nav { display: flex; gap: 1.4rem; align-items: center; }
+nav a { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sky-light); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
+nav a:hover { color: var(--white); }
+.nav-cta { background: var(--red) !important; color: var(--white) !important; padding: 8px 16px; border-radius: 3px; }
+.nav-cta:hover { background: var(--red-dark) !important; }
+.lang-toggle { display: flex; align-items: center; border: 1.5px solid rgba(168,216,234,0.35); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+.lang-btn { background: transparent; border: none; color: rgba(255,255,255,0.4); font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 2px; padding: 4px 8px; cursor: pointer; transition: all 0.15s; }
+.lang-btn.active { background: var(--red); color: var(--white); }
+.lang-btn:hover:not(.active) { color: var(--white); }
+.lang-divider { width: 1px; background: rgba(168,216,234,0.25); height: 18px; }
+
+/* SECTIONS */
+section { padding: 5.5rem 2rem; }
+.section-inner { max-width: 1000px; margin: 0 auto; }
+.section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--red); margin-bottom: 0.7rem; }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(34px, 5vw, 54px); letter-spacing: 3px; line-height: 1; margin-bottom: 1rem; color: var(--navy); }
+.section-body { font-size: 16px; font-weight: 300; line-height: 1.8; color: rgba(26,35,53,0.7); max-width: 560px; }
+
+/* PAGE HEADER */
+.page-header { padding-top: 64px; background: var(--sky); text-align: center; padding-bottom: 4rem; position: relative; }
+.page-header::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(26,35,53,0.12) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
+.page-header-inner { max-width: 700px; margin: 0 auto; padding: 4rem 2rem 0; position: relative; }
+.page-header h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 7vw, 72px); color: var(--navy); letter-spacing: 4px; line-height: 1; margin-bottom: 0.8rem; }
+.page-header p { font-size: 16px; font-weight: 300; color: var(--navy); opacity: 0.8; line-height: 1.7; }
+
+/* PROBLEM */
+.problem { background: var(--white); border-top: 1px solid var(--border); }
+.pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; margin-top: 3rem; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.pain-card { background: var(--white); padding: 2rem 1.6rem; position: relative; }
+.pain-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--sky); }
+.pain-icon { font-size: 26px; margin-bottom: 0.9rem; }
+.pain-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--navy); margin-bottom: 0.5rem; }
+.pain-text { font-size: 14px; color: rgba(26,35,53,0.6); line-height: 1.65; }
+
+/* HOW */
+.how { background: var(--sky-pale); border-top: 1px solid var(--border); }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0; margin-top: 3rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--border); }
+.step { background: var(--white); padding: 2.5rem 2rem; }
+.step-num { font-family: 'Bebas Neue', sans-serif; font-size: 56px; color: var(--sky); line-height: 1; margin-bottom: 0.5rem; }
+.step-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 3px; color: var(--navy); margin-bottom: 0.7rem; }
+.step-text { font-size: 14px; color: rgba(26,35,53,0.6); line-height: 1.7; }
+
+/* SERVICES */
+.services { background: var(--sky); border-top: 1px solid rgba(26,35,53,0.08); }
+.services .section-eyebrow { color: var(--navy); opacity: 0.55; }
+.services .section-body { color: rgba(26,35,53,0.75); }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; margin-top: 3rem; background: rgba(26,35,53,0.12); border: 1px solid rgba(26,35,53,0.12); border-radius: 8px; overflow: hidden; }
+.service-card { background: rgba(255,255,255,0.55); padding: 1.8rem 1.5rem; text-decoration: none; transition: background 0.18s; display: block; }
+.service-card:hover { background: rgba(255,255,255,0.82); }
+.service-level { font-family: 'Bebas Neue', sans-serif; font-size: 9px; letter-spacing: 3px; color: var(--red); margin-bottom: 0.5rem; text-transform: uppercase; }
+.service-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; color: var(--navy); margin-bottom: 0.6rem; line-height: 1; }
+.service-text { font-size: 13px; color: rgba(26,35,53,0.65); line-height: 1.6; }
+.service-arrow { font-size: 16px; color: var(--navy); margin-top: 1rem; display: block; opacity: 0.4; }
+
+/* WHY */
+.why { background: var(--white); border-top: 1px solid var(--border); }
+.why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; margin-top: 3rem; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.why-card { background: var(--white); padding: 2rem 1.6rem; border-top: 3px solid var(--sky); }
+.why-icon { font-size: 28px; margin-bottom: 0.9rem; }
+.why-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--navy); margin-bottom: 0.5rem; }
+.why-text { font-size: 14px; color: rgba(26,35,53,0.6); line-height: 1.65; }
+
+/* CONTACT */
+.contact-cta { background: var(--navy); text-align: center; border-top: 3px solid var(--red); }
+.contact-cta .section-eyebrow { color: var(--sky-light); opacity: 0.7; }
+.contact-cta .section-title { color: var(--white); }
+.contact-cta .section-body { color: rgba(255,255,255,0.6); margin: 0 auto 2.5rem; }
+.contact-form { max-width: 460px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+.contact-form input, .contact-form textarea { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 3px; padding: 13px 16px; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; width: 100%; }
+.contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(255,255,255,0.3); }
+.contact-form input:focus, .contact-form textarea:focus { border-color: var(--sky-light); }
+.contact-form textarea { min-height: 90px; resize: vertical; }
+.btn-sky { background: var(--sky); color: var(--navy); font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 3px; padding: 15px; border-radius: 3px; border: none; cursor: pointer; transition: background 0.2s; width: 100%; }
+.btn-sky:hover { background: var(--sky-light); }
+.contact-or { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 3px; text-transform: uppercase; margin: 1.5rem 0 1rem; }
+.btn-ghost { display: inline-block; color: var(--sky-light); font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 3px; padding: 12px 32px; border-radius: 3px; text-decoration: none; border: 1px solid rgba(168,216,234,0.3); transition: all 0.2s; }
+.btn-ghost:hover { border-color: var(--sky-light); color: var(--white); }
+
+/* FOOTER */
+footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.35); text-align: center; padding: 2rem 1.5rem; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+footer strong { color: rgba(255,255,255,0.65); }
+.footer-links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 1.2rem; flex-wrap: wrap; }
+.footer-links a { color: rgba(255,255,255,0.35); text-decoration: none; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; }
+.footer-links a:hover { color: var(--sky-light); }
+
+@media (max-width: 640px) {
+  header { padding: 0 1rem; gap: 0.5rem; }
+  nav a:not(.nav-cta) { display: none; }
+  section { padding: 4rem 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo-wrap" href="index.html">
+    <div class="logo-icon">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+        <rect width="100" height="100" fill="#1a6fa8"/>
+        <rect x="0" y="72" width="100" height="28" fill="#0d3d5c"/>
+        <rect x="30" y="32" width="40" height="40" fill="#fff"/>
+        <rect x="38" y="18" width="24" height="20" fill="#fff"/>
+        <polygon points="50,4 62,18 38,18" fill="#e8c94f"/>
+        <rect x="42" y="52" width="16" height="20" fill="#1a6fa8" rx="8"/>
+        <rect x="33" y="36" width="10" height="8" fill="#4EAACB"/>
+        <rect x="57" y="36" width="10" height="8" fill="#4EAACB"/>
+        <rect x="33" y="50" width="10" height="8" fill="#4EAACB"/>
+        <rect x="57" y="50" width="10" height="8" fill="#4EAACB"/>
+        <rect x="4" y="48" width="22" height="24" fill="#c8231d"/>
+        <rect x="74" y="44" width="22" height="28" fill="#c8231d"/>
+        <rect x="8" y="56" width="6" height="8" fill="#fff" opacity="0.7"/>
+        <rect x="78" y="52" width="6" height="8" fill="#fff" opacity="0.7"/>
+        <rect x="0" y="74" width="100" height="26" fill="#0d3d5c"/>
+        <text x="50" y="84" text-anchor="middle" font-family="Arial Black,sans-serif" font-weight="900" font-size="9" fill="#fff" letter-spacing="1">MORNING</text>
+        <text x="50" y="96" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" fill="#4EAACB" letter-spacing="2">COFFEE ADVISORY</text>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="brand">Morning Coffee</span>
+      <span class="sub">Advisory</span>
+    </div>
+  </a>
+  <nav>
+    <a href="despre.html#services" data-i18n="nav_services">Services</a>
+    <a href="despre.html#why" data-i18n="nav_about">About</a>
+    <a href="despre.html#contact" data-i18n="nav_contact">Contact</a>
+    <a href="assessment.html" class="nav-cta" data-i18n="nav_cta">Start Free Assessment</a>
+  </nav>
+  <div class="lang-toggle">
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    <div class="lang-divider"></div>
+    <button class="lang-btn" id="btn-ro" onclick="setLang('ro')">RO</button>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <h1 data-i18n="page_title">About Us</h1>
+    <p data-i18n="page_sub">What we do, how we do it, and why it works for small businesses.</p>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="section-inner">
+    <div class="section-eyebrow" data-i18n="prob_eyebrow">Sound familiar?</div>
+    <h2 class="section-title" data-i18n="prob_title">The Constraints Most Businesses Ignore</h2>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">😤</div>
+        <div class="pain-title" data-i18n="p1_title">Sales feel unpredictable</div>
+        <div class="pain-text" data-i18n="p1_text">Good months, bad months — and you're not sure why. No system, just activity.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🔇</div>
+        <div class="pain-title" data-i18n="p2_title">Nobody knows you exist</div>
+        <div class="pain-text" data-i18n="p2_text">You have a great product but your online presence doesn't reflect it. You're invisible where it counts.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🔁</div>
+        <div class="pain-title" data-i18n="p3_title">Referrals are your only channel</div>
+        <div class="pain-text" data-i18n="p3_text">Word of mouth is great until it goes quiet. One slow season and the pipeline dries up.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🤷</div>
+        <div class="pain-title" data-i18n="p4_title">You're competing on price</div>
+        <div class="pain-text" data-i18n="p4_text">Customers ask for discounts because they don't understand why you're worth more. A positioning problem, not a pricing one.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow" data-i18n="how_eyebrow">The Process</div>
+    <h2 class="section-title" data-i18n="how_title">Three Steps to Clarity</h2>
+    <p class="section-body" data-i18n="how_body">No jargon. No 40-slide decks. A clear diagnosis and a clear path forward.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title" data-i18n="step1_title">Assess</div>
+        <div class="step-text" data-i18n="step1_text">Work through the free assessment across your product, brand, online presence, and acquisition channels. Honest questions, honest answers.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title" data-i18n="step2_title">Diagnose</div>
+        <div class="step-text" data-i18n="step2_text">See exactly where the constraint is. Is it the product? The brand? The channels? The data tells you — no guessing.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title" data-i18n="step3_title">Fix</div>
+        <div class="step-text" data-i18n="step3_text">Get a tailored roadmap — or work with us directly to close the gaps and build a business that grows on its own terms.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-inner">
+    <div class="section-eyebrow" data-i18n="serv_eyebrow">What We Cover</div>
+    <h2 class="section-title" data-i18n="serv_title">The Five Pillars</h2>
+    <p class="section-body" data-i18n="serv_body">Every business constraint lives somewhere in this stack. We assess all five and tell you exactly which one is holding the rest back.</p>
+    <div class="services-grid">
+      <a class="service-card" href="product.html">
+        <div class="service-level" data-i18n="s1_level">Foundation · Level 5</div>
+        <div class="service-name" data-i18n="s1_name">Product Market Fit</div>
+        <div class="service-text" data-i18n="s1_text">Do people need what you sell, and do they understand why you're the best at it?</div>
+        <span class="service-arrow">→</span>
+      </a>
+      <a class="service-card" href="branding.html">
+        <div class="service-level" data-i18n="s2_level">Level 4</div>
+        <div class="service-name" data-i18n="s2_name">Branding</div>
+        <div class="service-text" data-i18n="s2_text">From invisible to recognised. From ignored to preferred. From transactional to trusted.</div>
+        <span class="service-arrow">→</span>
+      </a>
+      <a class="service-card" href="online-presence.html">
+        <div class="service-level" data-i18n="s3_level">Level 3</div>
+        <div class="service-name" data-i18n="s3_name">Online Presence</div>
+        <div class="service-text" data-i18n="s3_text">Google, social media, your website, your industry platforms — are they working for you or against you?</div>
+        <span class="service-arrow">→</span>
+      </a>
+      <a class="service-card" href="acquisition.html">
+        <div class="service-level" data-i18n="s4_level">Level 2</div>
+        <div class="service-name" data-i18n="s4_name">Acquisition</div>
+        <div class="service-text" data-i18n="s4_text">Channels, content, paid, organic, lead magnets — how many ways do new customers find you?</div>
+        <span class="service-arrow">→</span>
+      </a>
+      <a class="service-card" href="sales.html">
+        <div class="service-level" data-i18n="s5_level">Level 1 · Summary</div>
+        <div class="service-name" data-i18n="s5_name">Sales</div>
+        <div class="service-text" data-i18n="s5_text">Your overall sales efficiency — calculated from all four pillars combined into one honest score.</div>
+        <span class="service-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why" id="why">
+  <div class="section-inner">
+    <div class="section-eyebrow" data-i18n="why_eyebrow">Why Morning Coffee Advisory</div>
+    <h2 class="section-title" data-i18n="why_title">We Drink Our Own Coffee</h2>
+    <p class="section-body" data-i18n="why_body">We've been inside the same constraints we help you fix. That's why the questions are sharp and the advice is direct.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🎯</div>
+        <div class="why-title" data-i18n="w1_title">No Vanity Metrics</div>
+        <div class="why-text" data-i18n="w1_text">We don't talk about followers, impressions or brand awareness scores. We talk about what's actually costing you money.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <div class="why-title" data-i18n="w2_title">Fast and Focused</div>
+        <div class="why-text" data-i18n="w2_text">No 3-month discovery phases. No fluffy strategy documents. You know what the constraint is and what to do about it — fast.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">☕</div>
+        <div class="why-title" data-i18n="w3_title">Built for Small Business</div>
+        <div class="why-text" data-i18n="w3_text">Not for corporates with unlimited budgets. For business owners who need every decision to count and every euro to work.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📐</div>
+        <div class="why-title" data-i18n="w4_title">Framework-Driven</div>
+        <div class="why-text" data-i18n="w4_text">The same five-pillar framework used in every analysis. Consistent, evidence-based, comparable across industries.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-cta" id="contact">
+  <div class="section-inner">
+    <div class="section-eyebrow" data-i18n="ct_eyebrow">Ready to Find Out?</div>
+    <h2 class="section-title" data-i18n="ct_title">Let's Talk About Your Business</h2>
+    <p class="section-body" data-i18n="ct_body">Tell us a little about what you're dealing with. We'll come back with a clear view of where to start.</p>
+    <div class="contact-form">
+      <input type="text" data-i18n-placeholder="cf_name" placeholder="Your name" />
+      <input type="text" data-i18n-placeholder="cf_business" placeholder="Your business" />
+      <input type="email" data-i18n-placeholder="cf_email" placeholder="Your email" />
+      <textarea data-i18n-placeholder="cf_message" placeholder="What's the main challenge you're facing right now?"></textarea>
+      <button class="btn-sky" id="sendBtn" data-i18n="cf_send">Send Message →</button>
+    </div>
+    <div class="contact-or" data-i18n="ct_or">or start on your own</div>
+    <a href="assessment.html" class="btn-ghost" data-i18n="ct_assess">Start Free Assessment</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="despre.html#services" data-i18n="nav_services">Services</a>
+    <a href="despre.html#why" data-i18n="nav_about">About</a>
+    <a href="despre.html#contact" data-i18n="nav_contact">Contact</a>
+    <a href="assessment.html" data-i18n="nav_cta">Start Free Assessment</a>
+  </div>
+  <strong>TB Morning Coffee Advisory</strong> &nbsp;·&nbsp; <span data-i18n="footer_rights">All rights reserved</span> &nbsp;·&nbsp; 2026
+</footer>
+
+<script>
+const I18N = {
+  en: {
+    nav_services:'Services', nav_about:'About', nav_contact:'Contact', nav_cta:'Start Free Assessment',
+    page_title:'About Us', page_sub:'What we do, how we do it, and why it works for small businesses.',
+    prob_eyebrow:'Sound familiar?', prob_title:'The Constraints Most Businesses Ignore',
+    p1_title:'Sales feel unpredictable', p1_text:"Good months, bad months — and you're not sure why. No system, just activity.",
+    p2_title:'Nobody knows you exist', p2_text:"You have a great product but your online presence doesn't reflect it. You're invisible where it counts.",
+    p3_title:'Referrals are your only channel', p3_text:'Word of mouth is great until it goes quiet. One slow season and the pipeline dries up.',
+    p4_title:"You're competing on price", p4_text:"Customers ask for discounts because they don't understand why you're worth more. A positioning problem, not a pricing one.",
+    how_eyebrow:'The Process', how_title:'Three Steps to Clarity', how_body:'No jargon. No 40-slide decks. A clear diagnosis and a clear path forward.',
+    step1_title:'Assess', step1_text:'Work through the free assessment across your product, brand, online presence, and acquisition channels. Honest questions, honest answers.',
+    step2_title:'Diagnose', step2_text:"See exactly where the constraint is. Is it the product? The brand? The channels? The data tells you — no guessing.",
+    step3_title:'Fix', step3_text:"Get a tailored roadmap — or work with us directly to close the gaps and build a business that grows on its own terms.",
+    serv_eyebrow:'What We Cover', serv_title:'The Five Pillars', serv_body:'Every business constraint lives somewhere in this stack. We assess all five and tell you exactly which one is holding the rest back.',
+    s1_level:'Foundation · Level 5', s1_name:'Product Market Fit', s1_text:"Do people need what you sell, and do they understand why you're the best at it?",
+    s2_level:'Level 4', s2_name:'Branding', s2_text:'From invisible to recognised. From ignored to preferred. From transactional to trusted.',
+    s3_level:'Level 3', s3_name:'Online Presence', s3_text:'Google, social media, your website, your industry platforms — are they working for you or against you?',
+    s4_level:'Level 2', s4_name:'Acquisition', s4_text:'Channels, content, paid, organic, lead magnets — how many ways do new customers find you?',
+    s5_level:'Level 1 · Summary', s5_name:'Sales', s5_text:'Your overall sales efficiency — calculated from all four pillars combined into one honest score.',
+    why_eyebrow:'Why Morning Coffee Advisory', why_title:'We Drink Our Own Coffee', why_body:"We've been inside the same constraints we help you fix. That's why the questions are sharp and the advice is direct.",
+    w1_title:'No Vanity Metrics', w1_text:"We don't talk about followers, impressions or brand awareness scores. We talk about what's actually costing you money.",
+    w2_title:'Fast and Focused', w2_text:"No 3-month discovery phases. No fluffy strategy documents. You know what the constraint is and what to do about it — fast.",
+    w3_title:'Built for Small Business', w3_text:'Not for corporates with unlimited budgets. For business owners who need every decision to count and every euro to work.',
+    w4_title:'Framework-Driven', w4_text:'The same five-pillar framework used in every analysis. Consistent, evidence-based, comparable across industries.',
+    ct_eyebrow:'Ready to Find Out?', ct_title:"Let's Talk About Your Business", ct_body:"Tell us a little about what you're dealing with. We'll come back with a clear view of where to start.",
+    cf_name:'Your name', cf_business:'Your business', cf_email:'Your email', cf_message:"What's the main challenge you're facing right now?",
+    cf_send:'Send Message →', ct_or:'or start on your own', ct_assess:'Start Free Assessment',
+    footer_rights:'All rights reserved'
+  },
+  ro: {
+    nav_services:'Servicii', nav_about:'Despre', nav_contact:'Contact', nav_cta:'Incepe Evaluarea Gratuita',
+    page_title:'Despre Noi', page_sub:'Ce facem, cum o facem si de ce functioneaza pentru afacerile mici.',
+    prob_eyebrow:'Suna familiar?', prob_title:'Constrangerile pe Care Le Ignora Majoritatea',
+    p1_title:'Vanzarile sunt imprevizibile', p1_text:'Luni bune, luni proaste — si nu stii de ce. Nicio activitate sistematica.',
+    p2_title:'Nimeni nu stie ca existi', p2_text:'Ai un produs bun dar prezenta ta online nu il reflecta. Esti invizibil unde conteaza.',
+    p3_title:'Recomandarile sunt singurul canal', p3_text:'Vorba in gura e grozava pana se opreste. Un sezon mai lent si pipeline-ul seaca.',
+    p4_title:'Concurezi pe pret', p4_text:'Clientii cer reduceri pentru ca nu inteleg de ce meriti mai mult. O problema de pozitionare, nu de pret.',
+    how_eyebrow:'Procesul', how_title:'Trei Pasi spre Claritate', how_body:'Fara jargon. Fara prezentari de 40 de slide-uri. Un diagnostic clar si un drum clar inainte.',
+    step1_title:'Evalueaza', step1_text:'Parcurge evaluarea gratuita pentru produs, brand, prezenta online si canalele de achizitie. Intrebari corecte, raspunsuri corecte.',
+    step2_title:'Diagnostica', step2_text:'Vezi exact unde este constrangerea. E produsul? Brandul? Canalele? Datele iti spun — fara ghiceli.',
+    step3_title:'Rezolva', step3_text:'Primesti un plan de actiune personalizat — sau lucrezi direct cu noi pentru a inchide golurile si a construi o afacere care creste pe propriile conditii.',
+    serv_eyebrow:'Ce Acoperim', serv_title:'Cei Cinci Piloni', serv_body:'Orice constrangere de afaceri se afla undeva in aceasta structura. Evaluam toti cinci si iti spunem exact care il tine pe loc pe restul.',
+    s1_level:'Fundatie · Nivelul 5', s1_name:'Potrivirea Produsului', s1_text:'Oamenii au nevoie de ce vinzi si inteleg de ce esti cel mai bun la asta?',
+    s2_level:'Nivelul 4', s2_name:'Branding', s2_text:'De la invizibil la recunoscut. De la ignorat la preferat. De la tranzactional la de incredere.',
+    s3_level:'Nivelul 3', s3_name:'Prezenta Online', s3_text:'Google, social media, website-ul tau, platformele din industrie — lucreaza pentru tine sau impotriva ta?',
+    s4_level:'Nivelul 2', s4_name:'Achizitie', s4_text:'Canale, continut, platit, organic, lead magnet — in cate moduri te gasesc clientii noi?',
+    s5_level:'Nivelul 1 · Sumar', s5_name:'Vanzari', s5_text:'Eficienta ta generala in vanzari — calculata din toti cei patru piloni combinati intr-un scor sincer.',
+    why_eyebrow:'De Ce Morning Coffee Advisory', why_title:'Ne Bem Propria Cafea', why_body:'Am fost in aceleasi constrangeri pe care te ajutam sa le rezolvi. De aceea intrebarile sunt clare si sfaturile sunt directe.',
+    w1_title:'Fara Metrici de Imagine', w1_text:'Nu vorbim despre followeri, impresii sau scoruri de brand awareness. Vorbim despre ce iti costa bani cu adevarat.',
+    w2_title:'Rapid si Focusat', w2_text:'Fara faze de descoperire de 3 luni. Fara documente de strategie vagi. Stii care e constrangerea si ce sa faci — rapid.',
+    w3_title:'Construit pentru IMM', w3_text:'Nu pentru corporatii cu bugete nelimitate. Pentru antreprenori care au nevoie ca fiecare decizie sa conteze si fiecare euro sa lucreze.',
+    w4_title:'Bazat pe Framework', w4_text:'Acelasi framework cu cinci piloni folosit in fiecare analiza. Consistent, bazat pe date, comparabil intre industrii.',
+    ct_eyebrow:'Gata sa Aflii?', ct_title:'Sa Vorbim Despre Afacerea Ta', ct_body:'Spune-ne cu ce te confrunti. Revenim cu o perspectiva clara despre de unde sa incepem.',
+    cf_name:'Numele tau', cf_business:'Afacerea ta', cf_email:'Email-ul tau', cf_message:'Care este principala provocare cu care te confrunti acum?',
+    cf_send:'Trimite Mesajul →', ct_or:'sau incepe singur', ct_assess:'Incepe Evaluarea Gratuita',
+    footer_rights:'Toate drepturile rezervate'
+  }
+};
+
+function applyLang(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (I18N[lang]?.[key] !== undefined) el.innerHTML = I18N[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (I18N[lang]?.[key] !== undefined) el.placeholder = I18N[lang][key];
+  });
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-ro').classList.toggle('active', lang === 'ro');
+}
+function setLang(lang) { localStorage.setItem('tbmca_lang', lang); applyLang(lang); }
+document.getElementById('sendBtn').addEventListener('click', function() {
+  const lang = localStorage.getItem('tbmca_lang') || 'en';
+  alert(lang === 'ro' ? 'Multumim! Te vom contacta curand.' : 'Thank you! We will be in touch shortly.');
+});
+applyLang(localStorage.getItem('tbmca_lang') || 'en');
+</script>
+</body>
+</html>
